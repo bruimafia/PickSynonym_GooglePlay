@@ -13,8 +13,8 @@ android {
         applicationId "ru.bruimafia.picksynonym"
         minSdk 19
         targetSdk 33
-        versionCode 5
-        versionName "1.1.2"
+        versionCode 6
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -64,7 +64,7 @@ dependencies {
     // Библиотека Play Install Referrer (Опционально)
 
     // Yandex Mobile Ads
-    implementation 'com.yandex.android:mobileads:5.4.1'
+    implementation 'com.yandex.android:mobileads:5.5.0'
     implementation 'com.yandex.ads.mediation:mobileads-admob:21.3.0.0'
 
     // Модернизированные всплывающие уведомления

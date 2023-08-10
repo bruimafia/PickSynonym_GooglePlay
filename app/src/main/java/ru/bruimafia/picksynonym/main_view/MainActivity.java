@@ -1,9 +1,8 @@
 package ru.bruimafia.picksynonym.main_view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,8 +29,6 @@ import com.yandex.mobile.ads.common.ImpressionData;
 import com.yandex.mobile.ads.rewarded.Reward;
 import com.yandex.mobile.ads.rewarded.RewardedAd;
 import com.yandex.mobile.ads.rewarded.RewardedAdEventListener;
-
-import java.io.File;
 
 import es.dmoral.toasty.Toasty;
 import ru.bruimafia.picksynonym.R;
@@ -88,19 +85,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         binding.tvBuyFullApp.setOnClickListener(v -> presenter.onBuyFullAppClicked());
         binding.tvAbout.setOnClickListener(v -> presenter.openAboutAppClicked());
 
-    }
-
-    private void migratingToNewVersion() {
-        File f = new File(getApplicationInfo().dataDir + "/shared_prefs/result.xml");
-        if (f.exists()) {
-            Log.d("CheckVersion", "old (2.x)");
-            SharedPreferences sp = getApplicationContext().getSharedPreferences("result", Context.MODE_PRIVATE);
-            sPrefManager.setUserLevel(Integer.parseInt(sp.getString("POINTS", "0")) / 10 + 1);
-            sPrefManager.setUserPoints(Integer.parseInt(sp.getString("POINTS", "0")));
-            sPrefManager.setUserHints(sp.getInt("HINTS", 2));
-            sp.edit().clear().apply();
-            f.delete();
-        } else Log.d("CheckVersion", "new (3.x)");
+        isPickRhymeInstalled();
     }
 
     @Override
@@ -358,5 +343,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 }
             }
         });
+    }
+
+    // проверка установки Подбери рифму
+    public void isPickRhymeInstalled() {
+        try {
+            getApplicationContext().getPackageManager().getApplicationInfo("com.gukov.pickrhyme", 0);
+            binding.clPickRhymeLink.setVisibility(View.GONE);
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
     }
 }
