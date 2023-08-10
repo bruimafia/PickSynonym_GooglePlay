@@ -76,7 +76,7 @@ public interface MainContract {
 
         void updateUI(); // обновить интерфейс
 
-        void checkPurchased(boolean isPurchased); // проверяем на полную купленную версию
+        void checkPurchased(); // проверяем на полную купленную версию
 
         boolean isNetworkOnline(Context context); // проверка интернет-соединения
 

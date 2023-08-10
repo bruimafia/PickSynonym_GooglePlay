@@ -26,6 +26,7 @@ public class AppClass extends Application {
         OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
         OneSignal.initWithContext(this);
         OneSignal.setAppId(getString(R.string.oneSignal_app_id));
+        OneSignal.promptForPushNotifications();
     }
 
 }

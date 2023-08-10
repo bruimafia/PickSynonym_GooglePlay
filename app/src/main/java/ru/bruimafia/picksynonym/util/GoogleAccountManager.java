@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.PurchaseInfo;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -20,7 +18,7 @@ import ru.bruimafia.picksynonym.R;
 import ru.bruimafia.picksynonym.main_view.MainActivity;
 import ru.bruimafia.picksynonym.main_view.MainContract;
 
-public class GoogleAccountManager implements BillingProcessor.IBillingHandler {
+public class GoogleAccountManager {
 
     private static final int RC_SIGN_IN = 9001; // код запроса для вызова взаимодействия с пользователем
     private static final int RC_LEADERBOARD_UI = 9004; // код запроса для вызова таблицы лидеров
@@ -33,14 +31,11 @@ public class GoogleAccountManager implements BillingProcessor.IBillingHandler {
     private GoogleSignInClient googleSignInClient = null; // клиент для входа в Google API
     private LeaderboardsClient leaderboardsClient = null; // google game – таблица лидеров
     private PlayersClient playersClient = null; // google game – клиент игрока
-    private final BillingProcessor billingProcessor; // покупка приложения
 
     public GoogleAccountManager(Context context, MainContract.View view) {
         this.context = context;
         this.view = view;
         googleSignInClient = GoogleSignIn.getClient(context, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN); // создание клиента для входа в систему
-        billingProcessor = BillingProcessor.newBillingProcessor(context, context.getString(R.string.billing_google_license_key), this); // покупка приложения
-        billingProcessor.initialize();
         sPrefManager = SharedPreferencesManager.getInstance(context);
     }
 
@@ -138,36 +133,4 @@ public class GoogleAccountManager implements BillingProcessor.IBillingHandler {
         view.showHandleExceptionDialog(String.format("%1$s (status %2$d). %3$s.", details, status, e));
     }
 
-    public BillingProcessor getBillingProcessor() {
-        return billingProcessor;
-    }
-
-    public boolean isPurchased() {
-        return billingProcessor.isPurchased(context.getString(R.string.billing_google_product_id));
-    }
-
-    public void billingProcessorDestroy() {
-        if (billingProcessor != null)
-            billingProcessor.release();
-    }
-
-    @Override
-    public void onProductPurchased(String productId, PurchaseInfo details) {
-
-    }
-
-    @Override
-    public void onPurchaseHistoryRestored() {
-
-    }
-
-    @Override
-    public void onBillingError(int errorCode, Throwable error) {
-
-    }
-
-    @Override
-    public void onBillingInitialized() {
-
-    }
 }

@@ -68,8 +68,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         googleAccountManager = new GoogleAccountManager(this, this);
         firebaseManager = new FirebaseManager(this);
 
-        presenter.checkPurchased(googleAccountManager.isPurchased()); // обычная версия приложения, с рекламой
-//        presenter.checkPurchased(true); // полная версия приложения, не покупая его
+        presenter.checkPurchased(); // обычная версия приложения, с рекламой
 
         checkUpdateAvailability();
 
@@ -317,12 +316,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onPause() {
         super.onPause();
         googleAccountManager.updateLeaderboards(sPrefManager.getUserPoints(), sPrefManager.getUserLevel());
-    }
-
-    @Override
-    protected void onDestroy() {
-        googleAccountManager.billingProcessorDestroy();
-        super.onDestroy();
     }
 
     // проверка обновлений
