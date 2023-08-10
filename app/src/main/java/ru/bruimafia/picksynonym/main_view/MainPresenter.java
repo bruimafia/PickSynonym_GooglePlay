@@ -101,9 +101,8 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void checkPurchased(boolean isPurchased) {
-        sPrefManager.setIsFullVersion(isPurchased);
-        view.showMessageBuyFullApp(isPurchased);
+    public void checkPurchased() {
+        view.showMessageBuyFullApp(sPrefManager.getIsFullVersion());
     }
 
     @Override
